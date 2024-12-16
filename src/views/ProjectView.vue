@@ -20,7 +20,12 @@
       <!-- Header Section -->
       <div class="container header">
         <h2 class="title">Understanding the Dark Side of LLMs' Intrinsic Self-Correction</h2>
-        <h4 class="subtitle">Interpreting and Mitigating Self-Correction Failures in State-of-the-Art LLMs</h4>
+        <h4 class="subtitle">
+          <span class="underline">Ex</span>plaining 
+          <span class="underline">I</span>ntrinsic 
+          <span class="underline">S</span>elf-<span class="underline">C</span>orrection 
+          (X-ISC)
+        </h4>
         
         <div class="author-info">
           <span>Anonymous submission</span>
@@ -55,7 +60,7 @@
                     <el-col :span="1"></el-col>
                   <el-col :span="11">
                     <p>
-                      Intrinsic self-correction was proposed to refine LLMs' responses via feedback prompts solely based on their inherent capability to improve their performance. However, recent works show that intrinsic self-correction fails without oracle labels as feedback prompts. In this paper, our goal is to investigate the question of how to interpret LLMs' intrinsic self-correction in different tasks. By including simple factual questions and three complex tasks with state-of-the-art (SOTA) LLMs like ChatGPT families (o1, 4o, 3.5-turbo) and Llama families (2-7B, 3-8B, and 3.1-8B), we achieve our goal by designing three interpretation methods to reveal the dark side of LLMs' intrinsic self-correction. We identify intrinsic self-correction can (1) cause LLMs to waver both intermediate and final answers and lead to prompt bias on simple factual questions; (2) introduce human-like cognitive bias on complex tasks. In light of our findings, we also provide two simple, low-cost, yet effective strategies for alleviation: question repeating and supervised fine-tuning.
+                      Intrinsic self-correction was proposed to improve LLMs' responses via feedback solely based on their inherent capability. However, recent works show that LLMs' intrinsic self-correction fails without oracle labels as feedback. In this paper, we aim to interpret LLMs' intrinsic self-correction for different tasks, especially for those failure cases? By including one simple task and three complex tasks with state-of-the-art (SOTA) LLMs like ChatGPT families (o1, 4o, 3.5-turbo) and Llama families (2-7B, 3-8B, and 3.1-8B), we design interpretation methods to reveal the dark side of SOTA LLMs' intrinsic self-correction. We identify intrinsic self-correction can (1) cause LLMs to waver both intermedia and final answers and lead to prompt bias on simple factual questions; (2) introduce human-like cognitive bias on complex tasks. In light of our findings, we also provide two simple, low-cost, yet effective strategies for alleviation: question repeating and supervised fine-tuning.
                     </p>
                   </el-col>
                 <el-col :span="10">
@@ -321,7 +326,7 @@
     { model: 'GPT-3.5-turbo', acc1: '62.5 (↓12.1)', overturned: '34.0' },
     { model: 'GPT-3.5-turbo + Question repeating', acc1: '67.4 (↓7.2)', overturned: '23.1' },
     { model: 'GPT-3.5-turbo + SFT', acc1: '76.2 (↑1.6)', overturned: '0' },
-    { model: 'Llama-3.1-8B', acc1: '49.2 (↓20.4)', overturned: '58.8' },
+    { model: 'Llama-3.1-8B', acc1: '49.2 (���20.4)', overturned: '58.8' },
     { model: 'Llama-3.1-8B + Question repeating', acc1: '52.4 (↓17.2)', overturned: '52.8' },
     { model: 'Llama-3.1-8B + SFT', acc1: '70.3 (↑0.7)', overturned: '0' }
   ];
@@ -536,7 +541,7 @@
   
   p {
     margin: 8px 0; /* 减小段落间距 */
-    line-height: 1.5; /* 减小行高 */
+    line-height: 1.5; /* 减小行 */
   }
   
   /* 添加新的样式类用于中等大小的图片 */
@@ -581,6 +586,10 @@
   #abstract {
     margin-top: 0;
     padding-top: 0;
+  }
+  
+  .underline {
+    text-decoration: underline;
   }
   </style>
   
