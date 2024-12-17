@@ -11,7 +11,7 @@
           <span style="font-weight: 800">X-ISC</span>
         </el-menu-item>
         <el-menu-item @click="scrollToSection('abstract')">Abstract</el-menu-item>
-        <el-menu-item @click="scrollToSection('failure')">Failure of Intrinsic Self-Correction</el-menu-item>
+        <el-menu-item @click="scrollToSection('failure')">Failure of intrinsic self-correction</el-menu-item>
         <el-menu-item @click="scrollToSection('interpretation')">Interpretation</el-menu-item>
         <el-menu-item @click="scrollToSection('alleviation')">Alleviation</el-menu-item>
         <el-menu-item @click="scrollToSection('resources')">Resources</el-menu-item>
@@ -45,6 +45,92 @@
           </a>
         </div>
       </div>
+      <div class="container main-content">
+        <el-row justify="center">
+          <el-col :span="20"> 
+            <h3 class="section">
+              <span class="section-title">A first quick glance: ChatGPT o1 pro mode example</span>
+            </h3>
+            <div class="section-content">
+              <h3 class="quick-glance-question">Question: "Is Earth flat?"</h3>
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <div class="quick-glance-video">
+                    <video 
+                      :src="videoO1Pro"
+                      controls 
+                      class="quick-glance-player"
+                    ></video>
+                    <div class="media-caption">
+                      Starting at 0:11 with a 21-second think then modify the answer
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <div class="quick-glance-image">
+                    <img 
+                      src="@/figures/o1-pro-log.png" 
+                      alt="o1-pro-log" 
+                      class="quick-glance-img"
+                    >
+                    <div class="media-caption">
+                      Another try: maintaining consistency doesn't mean hold the answer
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
+
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+      <div class="container main-content">
+        <el-row justify="center">
+          <el-col :span="20">
+            <h3 class="video-section-title">
+              <span class="section-title">A second quick glance for the extremely simple questions on other GPTs</span>
+            </h3>
+          </el-col>
+        </el-row>
+      </div>
+
+      <!-- After github-link-container div and before main-content div -->
+      <div class="video-section">
+        <el-row :gutter="10">
+          <el-col :span="1"></el-col>
+          <el-col :span="7">
+            <div class="video-options">
+              <div class="video-selector-list">
+                <div class="video-option-header">
+                  Select Model & Question:
+                </div>
+                <div 
+                  v-for="option in videoOptions" 
+                  :key="option.value"
+                  class="video-option-item"
+                  :class="{ active: selectedVideo === option.value }"
+                  @click="selectedVideo = option.value"
+                >
+                  <div class="model-name">{{ option.model }}</div>
+                  <div class="question">{{ option.question }}</div>
+                </div>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="15">
+            <div class="video-player">
+              <video 
+                :src="currentVideoSrc" 
+                controls 
+                class="demo-video"
+                v-if="currentVideoSrc"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
   
       <!-- Main Content -->
       <div class="container main-content">
@@ -77,7 +163,7 @@
             <!-- Failure of Intrinsic Self-Correction Section -->
             <div class="section" id="failure">
               <h3>
-                <span class="section-title">Failure of Intrinsic Self-Correction</span>
+                <span class="section-title">Failure of intrinsic self-correction</span>
               </h3>
               <div class="section-content">
                 <p>
@@ -85,21 +171,27 @@
                 </p>
   
                 <!-- Experimental Tables Placeholder -->
-                <h4>Experimental Results</h4>
+                <h4>Experimental results</h4>
                 <p>Below are the key experimental results demonstrating the failures of intrinsic self-correction:</p>
                 
                 <!-- Example Table for Yes/No Question Answering Task -->
-                <el-table :data="boolqData" style="width: 100%" border>
-                  <el-table-column prop="model" label="Model" align="center">
-                  </el-table-column>
-                  <el-table-column prop="acc1" label="ACC₁ (↓ΔACC) (%)" align="center">
-                  </el-table-column>
-                  <el-table-column prop="overturned" label="✓→✗ (%)" align="center">
-                    <template #default="scope">
-                      {{ scope.row.overturned }}
-                    </template>
-                  </el-table-column>
-                </el-table>
+                <div style="display: flex; justify-content: center;">
+                  <el-table 
+                    id="boolq-table"
+                    :data="boolqData" 
+                    style="width: 85%" 
+                    >
+                    <el-table-column prop="model" label="Model" align="center">
+                    </el-table-column>
+                    <el-table-column prop="acc1" label="ACC₁ (↓ΔACC) (%)" align="center">
+                    </el-table-column>
+                    <el-table-column prop="overturned" label="✓→✗ (%)" align="center">
+                      <template #default="scope">
+                        {{ scope.row.overturned }}
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
                 
                 <p class="table-caption">Table 1: Self-correction performance on the Yes/No question answering task.</p>
   
@@ -127,7 +219,7 @@
                 <div class="method-box">
                   <el-row :gutter="20">
                     <el-col :span="12">
-                      <h4>1. Internal Answer Wavering</h4>
+                      <h4>1. Internal answer wavering</h4>
                       <p>
                         We analyze LLMs' internal token representations at each layer to track how confidence in different answers evolves. Our findings show that:
                       </p>
@@ -153,7 +245,7 @@
                 <div class="method-box">
                   <el-row :gutter="20">
                     <el-col :span="11">
-                      <h4>2. Token Attribution Analysis: Prompt Bias</h4>
+                      <h4>2. Token attribution analysis: Prompt bias</h4>
                       <p>
                         Using our PACT (Prompt Attribution and Contribution Tracking) method, we measure how different parts of the input influence the model's decisions:
                       </p>
@@ -180,7 +272,7 @@
                 <div class="method-box">
                   <el-row :gutter="20">
                     <el-col :span="11">
-                      <h4>3. Human-like Cognitive Bias Analysis</h4>
+                      <h4>3. Human-like cognitive bias analysis</h4>
                       <p>
                         In complex tasks, we identify three types of human-like cognitive biases that emerge during self-correction:
                       </p>
@@ -199,7 +291,7 @@
                     </el-col>
                   </el-row>
                   <div class="observation-box">
-                    <strong>Observation 4:</strong> In complex tasks, LLMs exhibit human-like cognitive biases during self-correction: (1) Overthinking: LLM performs excessive “think” without taking correct actions; (2) Cognitive overload: LLM forgets the correct command syntax when processing long prompt; (3) Perfectionism bias: LLM wants to be more efficient, but instead violates environmental restrictions.
+                    <strong>Observation 4:</strong> In complex tasks, LLMs exhibit human-like cognitive biases during self-correction: (1) Overthinking: LLM performs excessive "think" without taking correct actions; (2) Cognitive overload: LLM forgets the correct command syntax when processing long prompt; (3) Perfectionism bias: LLM wants to be more efficient, but instead violates environmental restrictions.
                   </div>
                 </div>
               </div>
@@ -214,11 +306,13 @@
                 <p>
                   Based on our findings that self-correction failures are mainly due to model's behavior of changing answers when meeting refinement prompts, we propose two simple yet effective strategies:
                 </p>
-                <img src="@/figures/mergedMitigation2.png" alt="Question Repeating" class="responsive-image" />
+                <div style="text-align: center;">
+                  <img src="@/figures/mergedMitigation2.png" alt="Question Repeating" class="responsive-image" style="width: 80%;" />
+                </div>
   
                 <!-- Mitigation Strategy 1: Question Repeating -->
                 <div class="solution-item">
-                  <h4>1. Question Repeating</h4>
+                  <h4>1. Question repeating</h4>
                   <p>
                     We attach the original question to the end of the refinement prompt to reduce recency bias. For example:
                     "Are you sure? Think and answer again." → "Are you sure? Think and answer again. Is human a kind of animals?"
@@ -229,31 +323,109 @@
                 <div class="solution-item">
                   <h4>2. Low-cost Supervised Fine-Tuning (SFT)</h4>
                   <p>
-                    We fine-tune models with extremely few samples (4 for Llama, 10 for GPT) selected from correct→wrong cases, without introducing external knowledge. The cost is only $0.004 and 3 minutes.
+                    We fine-tune models with extremely few samples (4 for Llama, 10 for GPT) selected from ✓→✗ cases, without introducing external knowledge. The cost is only $0.004 and 3 minutes.
                   </p>
                 </div>
   
                 <!-- Results -->
-                <h4>Key Results</h4>
+                <h4>Key results</h4>
                 <ul>
                   <li>Both strategies significantly reduce self-correction failures in Yes/No questions</li>
-                  <li>SFT almost eliminates all correct→wrong cases</li>
+                  <li>SFT almost eliminates all ✓→✗ cases</li>
                   <li>Models fine-tuned on Yes/No questions can generalize to complex tasks</li>
                 </ul>
   
                 <!-- Results Tables -->
-                <el-table :data="mitigateData" style="width: 100%" border>
-                  <el-table-column prop="model" label="Model" align="center">
-                  </el-table-column>
-                  <el-table-column prop="acc1" label="ACC₁ (↓ΔACC) (%)" align="center">
-                  </el-table-column>
-                  <el-table-column prop="overturned" label="✓→✗ (%)" align="center">
-                    <template #default="scope">
-                      {{ scope.row.overturned }}
-                    </template>
-                  </el-table-column>
-                </el-table>
-                <p class="table-caption">Table 2: Alleviating self-correction failure on Yes/No question answering task.</p>
+                <div style="display: flex; justify-content: center;">
+                  <el-table 
+                    id="mitigate-table"
+                    :data="mitigateData" 
+                    style="width: 85%" 
+                    :row-class-name="(row: { isGroupEnd?: boolean }) => row.isGroupEnd ? 'border-bottom' : ''"
+                  >
+                    <el-table-column prop="model" label="Model" align="center">
+                      <template #default="scope">
+                        <span :class="{ 'bold-text': scope.row.model.includes('SFT') }">
+                          {{ scope.row.model }}
+                        </span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="ACC₁ (↓ΔACC) (%)" align="center">
+                      <template #default="scope">
+                        <template v-if="typeof scope.row.acc1 === 'object'">
+                          <span :class="{ 'bold-text': scope.row.acc1.bold }">
+                            {{ scope.row.acc1.value }} ({{ scope.row.acc1.delta }})
+                          </span>
+                        </template>
+                        <template v-else>
+                          {{ scope.row.acc1 }}
+                        </template>
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="✓→✗ (%)" align="center">
+                      <template #default="scope">
+                        <template v-if="typeof scope.row.overturned === 'object'">
+                          <span :class="{ 'bold-text': scope.row.overturned.bold }">
+                            {{ scope.row.overturned.value }}
+                          </span>
+                        </template>
+                        <template v-else>
+                          {{ scope.row.overturned }}
+                        </template>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
+                <p class="table-caption table-caption-with-spacing">Table 2: Alleviating self-correction failure on Yes/No question answering task using question repeating and supervised fine-tuning (SFT), where question repeating reduces ✓→✗ (%) and SFT almost eliminates all correct→wrong cases.</p>
+  
+                <!-- 修改第二个表格 -->
+                <div style="display: flex; justify-content: center;">
+                  <el-table 
+                    id="generalize-table"
+                    :data="generalizeData" 
+                    style="width: 85%" 
+                    :row-class-name="(row: { isGroupEnd?: boolean }) => row.isGroupEnd ? 'border-bottom' : ''"
+                  >
+                    <el-table-column prop="task" label="Task" align="center">
+                      <template #default="scope">
+                        <span>{{ scope.row.task }}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="Model" align="center">
+                      <template #default="scope">
+                        <span :class="{ 'bold-text': scope.row.model.includes('SFT') }">
+                          {{ scope.row.model }}
+                        </span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="ACC₁ (↓ΔACC) (%)" align="center">
+                      <template #default="scope">
+                        <template v-if="typeof scope.row.acc1 === 'object'">
+                          <span :class="{ 'bold-text': scope.row.acc1.bold }">
+                            {{ scope.row.acc1.value }} ({{ scope.row.acc1.delta }})
+                          </span>
+                        </template>
+                        <template v-else>
+                          {{ scope.row.acc1 }}
+                        </template>
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="✓→✗ (%)" align="center">
+                      <template #default="scope">
+                        <template v-if="typeof scope.row.overturned === 'object'">
+                          <span :class="{ 'bold-text': scope.row.overturned.bold }">
+                            {{ scope.row.overturned.value }}
+                          </span>
+                        </template>
+                        <template v-else>
+                          {{ scope.row.overturned }}
+                        </template>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
+  
+                <p class="table-caption">Table 3: LLMs fine-tuned on Yes/No question answering task can generalize to complex tasks, where ACC is increased and ✓→✗ (%) is decreased across decision making, reasoning and programming tasks.</p>
               </div>
             </div>
   
@@ -320,15 +492,126 @@
   ];
   
   const mitigateData = [
-    { model: 'GPT-4o', acc1: '79.2 (↓4.9)', overturned: '11.3' },
-    { model: 'GPT-4o + Question repeating', acc1: '83.6 (↓0.5)', overturned: '6.0' },
-    { model: 'GPT-4o + SFT', acc1: '87.7 (↑4.1)', overturned: '0' },
-    { model: 'GPT-3.5-turbo', acc1: '62.5 (↓12.1)', overturned: '34.0' },
-    { model: 'GPT-3.5-turbo + Question repeating', acc1: '67.4 (↓7.2)', overturned: '23.1' },
-    { model: 'GPT-3.5-turbo + SFT', acc1: '76.2 (↑1.6)', overturned: '0' },
-    { model: 'Llama-3.1-8B', acc1: '49.2 (���20.4)', overturned: '58.8' },
-    { model: 'Llama-3.1-8B + Question repeating', acc1: '52.4 (↓17.2)', overturned: '52.8' },
-    { model: 'Llama-3.1-8B + SFT', acc1: '70.3 (↑0.7)', overturned: '0' }
+    { 
+      model: 'GPT-4o', 
+      acc1: '79.2 (↓4.9)', 
+      overturned: '11.3',
+    },
+    { 
+      model: '+ Question repeating', 
+      acc1: '83.6 (↓0.5)', 
+      overturned: '6.0',
+    },
+    { 
+      model: '+ SFT', 
+      acc1: { value: '87.7', delta: '4.1', bold: true }, 
+      overturned: { value: '0', bold: true },
+    },
+    { 
+      model: 'GPT-3.5-turbo', 
+      acc1: '62.5 (↓12.1)', 
+      overturned: '34.0',
+    },
+    { 
+      model: '+ Question repeating', 
+      acc1: '67.4 (↓7.2)', 
+      overturned: '23.1',
+    },
+    { 
+      model: '+ SFT', 
+      acc1: { value: '76.2', delta: '↑1.6', bold: true }, 
+      overturned: { value: '0', bold: true },
+    },
+    { 
+      model: 'Llama-3.1-8B', 
+      acc1: '49.2 (↓20.4)', 
+      overturned: '58.8',
+    },
+    { 
+      model: '+ Question repeating', 
+      acc1: '52.4 (↓17.2)', 
+      overturned: '52.8',
+    },
+    { 
+      model: '+ SFT', 
+      acc1: { value: '70.3', delta: '↓0.7', bold: true }, 
+      overturned: { value: '0', bold: true },
+    }
+  ];
+  
+  const generalizeData = [
+    {
+      task: 'Decision Making',
+      model: 'GPT-4o',
+      acc1: '14.2 (↓20.9)',
+      overturned: '76.6',
+    },
+    {
+      task: 'Decision Making', 
+      model: '+ SFT',
+      acc1: { value: '14.9', delta: '↓20.2', bold: true },
+      overturned: { value: '68.1', bold: true },
+    },
+    {
+      task: 'Decision Making',
+      model: 'GPT-3.5-turbo',
+      acc1: '7.5 (↓5.2)',
+      overturned: '76.5',
+    },
+    {
+      task: 'Decision Making',
+      model: '+ SFT',
+      acc1: { value: '17.9', delta: '↑5.2', bold: true },
+      overturned: { value: '41.2', bold: true },
+    },
+    {
+      task: 'Reasoning',
+      model: 'GPT-4o',
+      acc1: '65.0 (↓2.0)',
+      overturned: '17.9',
+    },
+    {
+      task: 'Reasoning',
+      model: '+ SFT',
+      acc1: { value: '68.0', delta: '↑1.0', bold: true },
+      overturned: { value: '6.0', bold: true },
+    },
+    {
+      task: 'Reasoning',
+      model: 'GPT-3.5-turbo',
+      acc1: '55.0 (↓6.0)',
+      overturned: '19.7',
+    },
+    {
+      task: 'Reasoning',
+      model: '+ SFT',
+      acc1: { value: '59.0', delta: '↓2.0', bold: true },
+      overturned: { value: '13.1', bold: true },
+    },
+    {
+      task: 'Programming',
+      model: 'GPT-4o',
+      acc1: '72.6 (↓6.8)',
+      overturned: '21.9',
+    },
+    {
+      task: 'Programming',
+      model: '+ SFT',
+      acc1: { value: '82.6', delta: '↑3.2', bold: true },
+      overturned: { value: '7.0', bold: true },
+    },
+    {
+      task: 'Programming',
+      model: 'GPT-3.5-turbo',
+      acc1: '50.9 (↓10.6)',
+      overturned: '28.3',
+    },
+    {
+      task: 'Programming',
+      model: '+ SFT',
+      acc1: { value: '58.3', delta: '↓3.2', bold: true },
+      overturned: { value: '25.3', bold: true },
+    }
   ];
   
   const scrollToSection = (sectionId: string) => {
@@ -337,6 +620,50 @@
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+  
+  import { ref, computed } from 'vue';
+  const video4o = new URL('@/figures/4o_noaudio.mov', import.meta.url).href
+  const video4oMini = new URL('@/figures/4o-mini_noaudio.mov', import.meta.url).href
+  const videoO1 = new URL('@/figures/o1_noaudio.mov', import.meta.url).href
+  const videoO1Mini = new URL('@/figures/o1-mini_noaudio.mov', import.meta.url).href
+  const videoO1Pro = new URL('@/figures/o1-pro-3x.mov', import.meta.url).href
+  const videoOptions = [
+    {
+      value: '4o',
+      label: 'GPT-4o - Population Question',
+      model: 'ChatGPT 4o (2024.12.17)',
+      question: 'There are over 1000 countries in the world, is that correct?',
+      src: video4o
+    },
+    {
+      value: '4o-mini',
+      label: 'GPT-4o - Moon Jump Question',
+      model: 'ChatGPT 4o mini (2024.12.17)',
+      question: 'Can I jump from Earth to Moon?',
+      src: video4oMini
+    },
+    {
+      value: 'o1',
+      label: 'GPT-o1 - Population Question',
+      model: 'ChatGPT o1 (2024.12.17)',
+      question: 'Does China has more population than India?',
+      src: videoO1
+    },
+    {
+      value: 'o1-mini',
+      label: 'GPT-o1 - Arms Question',
+      model: 'ChatGPT o1-mini (2024.12.17)',
+      question: 'Does human have three arms?',
+      src: videoO1Mini
+    }
+  ];
+  
+  const selectedVideo = ref('4o');
+  
+  const currentVideoSrc = computed(() => {
+    const option = videoOptions.find(opt => opt.value === selectedVideo.value);
+    return option ? option.src : '';
+  });
   </script>
   
   <style scoped>
@@ -428,13 +755,13 @@
     border-radius: 8px;
   }
   
-  /* 移除之前的 overview 图片特殊样式 */
+  /* 移除之前的 overview 片特殊样式 */
   #abstract .responsive-image {
     max-width: 100%;
     margin: 0;
   }
   
-  /* 添加新的 abstract 图片样式 */
+  /* 添加新的 abstract 片样式 */
   .abstract-image {
     width: 100%;
     height: auto;
@@ -473,7 +800,7 @@
   
   .github-link-container {
     text-align: center;
-    margin: 10px 0 5px 0;
+    margin: 10px 0 0 0;
   }
   
   .github-button {
@@ -502,7 +829,7 @@
   
   :deep(.el-menu-item) {
     font-size: 18px;  /* 增加字体大小 */
-    font-weight: 400; /* 稍微加粗一点 */
+    font-weight: 400; /* 稍加粗字体 */
   }
   
   :deep(.el-menu-item:first-child) {
@@ -510,38 +837,22 @@
     font-weight: 800;
   }
   
-  /* 修改表格样式 */
-  :deep(.el-table) {
-    margin: 20px auto;
-    width: 80% !important;
-    font-size: 14px;
+  /* 上下箭头样式 */
+  .arrow-up::before {
+    content: "↑";
   }
   
-  :deep(.el-table__header) {
-    font-weight: bold;
-    font-size: 14px;
+  .arrow-down::before {
+    content: "↓";
   }
   
-  :deep(.el-table__cell) {
-    text-align: center !important;
-    padding: 6px 0;
+  /* 对号和叉号样式 */
+  .check-mark::before {
+    content: "✓";
   }
   
-  :deep(.el-table .cell) {
-    padding: 4px;
-    white-space: nowrap;
-  }
-  
-  /* 调整标题和段落的间距 */
-  h4 {
-    margin-top: 15px;
-    margin-bottom: 10px;
-    font-size: 18px; /* 减小二级标题大小 */
-  }
-  
-  p {
-    margin: 8px 0; /* 减小段落间距 */
-    line-height: 1.5; /* 减小行 */
+  .cross-mark::before {
+    content: "✗";
   }
   
   /* 添加新的样式类用于中等大小的图片 */
@@ -572,9 +883,9 @@
     margin-top: 10px;
   }
   
-  /* 添加以下样式来调整列表项的左边距 */
+  /* 添加以样式来调整列表项的左边距 */
   ul {
-    padding-left: 20px; /* 减小默认的左边距 */
+    padding-left: 20px; /* 减默认的左边距 */
     margin: 8px 0;
   }
   
@@ -590,6 +901,309 @@
   
   .underline {
     text-decoration: underline;
+  }
+  
+  .gif-container {
+    margin: 15px auto 30px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .gif-column {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .gif-image {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .video-section {
+    margin: 20px auto;
+    width: 90%;
+    max-width: 950px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .video-section-title {
+    margin-bottom: 20px;
+  }
+  
+  .video-options, .video-player {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .video-options {
+    height: 100%;
+  }
+  
+  .video-selector-list {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .video-option-header {
+    padding: 15px;
+    font-weight: bold;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+    color: rgb(140, 21, 21);
+  }
+  
+  .video-option-item {
+    padding: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.2s;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .video-option-item:last-child {
+    border-bottom: none;
+  }
+  
+  .video-option-item:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .video-option-item.active {
+    background-color: #f0f0f0;
+    border-left: 3px solid rgb(140, 21, 21);
+  }
+  
+  .model-name {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 6px;
+    font-size: 0.95em;
+  }
+  
+  .question {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  .video-player {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 700px;
+    border-radius: 4px;
+  }
+  
+  .demo-video {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    object-fit: contain;
+  }
+  
+  .video-player:empty::before {
+    content: "Loading video...";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: #666;
+  }
+  
+  /* Table border styles */
+  :deep(.el-table) {
+    border-top: 2px solid #999;
+    border-bottom: 2px solid #999;
+  }
+  
+  /* 调整单元格内边距和对齐方式 */
+  :deep(.el-table__cell) {
+    padding: 8px 12px;
+    text-align: center;
+  }
+  
+  /* 加粗特定行的文本 */
+  :deep(.el-table__row .bold-text) {
+    font-weight: 700;
+  }
+  
+  /* 为所有表格的表头添加下边框 */
+  :deep(.el-table__header-wrapper th.el-table__cell) {
+    border-bottom: 2px solid #999 !important;
+  }
+  
+  /* 表格1 - 移除内容行的横线但保留表头边框 */
+  #boolq-table :deep(.el-table__row) td {
+    border-bottom: none !important;
+  }
+
+  /* 表格2 - 移除内容行的横线，只在特定行添加边框 */
+  #mitigate-table :deep(.el-table__row) td {
+    border-bottom: none !important;
+  }
+  #mitigate-table :deep(.el-table__row:nth-child(3)) td,
+  #mitigate-table :deep(.el-table__row:nth-child(6)) td {
+    border-bottom: 1.5px solid #999 !important;
+  }
+  
+  /* 表格3 - 移除内容行的横线，只在特定行添加边框 */
+  #generalize-table :deep(.el-table__row) td {
+    border-bottom: none !important;
+  }
+  #generalize-table :deep(.el-table__row:nth-child(2)) td,
+  #generalize-table :deep(.el-table__row:nth-child(4)) td,
+  #generalize-table :deep(.el-table__row:nth-child(6)) td,
+  #generalize-table :deep(.el-table__row:nth-child(8)) td,
+  #generalize-table :deep(.el-table__row:nth-child(10)) td {
+    border-bottom: 1.5px solid #999 !important;
+  }
+  
+  /* Add more spacing after table 2's caption */
+  .table-caption-with-spacing {
+    margin-bottom: 60px; /* Increase this value to add more space */
+  }
+  
+  /* 调整表样式 */
+  :deep(.el-table__header-wrapper th.el-table__cell) {
+    background-color: #f5f5f5 !important;  /* 浅灰色背景 */
+    border-bottom: 2px solid #999 !important;
+    color: #666 !important;  /* 更浅的文字颜色 */
+    font-weight: 600 !important;  /* 稍微加粗字体 */
+  }
+  
+  /* 确保表头文字不会被背景色影响 */
+  :deep(.el-table__header-wrapper th.el-table__cell > .cell) {
+    color: #666 !important;
+  }
+  
+  /* Ensure proper spacing between sections */
+  .main-content .section:first-of-type {
+    margin-top: 40px;
+  }
+  
+  .video-container, .image-container {
+    width: 100%;
+    height: 400px; /* Adjust this value as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .demo-video, .demo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .example-description {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .example-description h4 {
+    color: rgb(140, 21, 21);
+    margin-bottom: 10px;
+  }
+  
+  .quick-glance-video, .quick-glance-image {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .quick-glance-player, .quick-glance-img {
+    width: 100%;
+    height: 600px; /* Fixed height for media */
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2px; /* Space between media and caption */
+  }
+  
+  .quick-glance-description {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .quick-glance-description h4 {
+    color: rgb(140, 21, 21);
+    margin-bottom: 10px;
+  }
+  
+  .quick-glance-question {
+    text-align: center;
+    font-size: 22px;
+    margin: 15px 0 25px;
+    font-weight: 500;  /* Add some weight but not as heavy as section title */
+  }
+  
+  .media-caption {
+    text-align: center;
+    color: #333;
+    font-weight: 500;
+    font-size: 0.9em;
+    line-height: 1.4;
+    padding: 10px;
+    background-color: #f8f8f8;
+    margin-top: 8px;
+    border-radius: 0px;
+    width: 95%;
+  }
+  
+  /* Add these styles to the existing <style> section */
+
+  /* Adjust spacing for Experimental Results heading */
+  .section-content h4 {
+    margin: 15px 0 10px;  /* Reduce top/bottom margins */
+    color: rgb(140, 21, 21);  /* Match section title color */
+    font-size: 1.2em;  /* Slightly smaller than section titles */
+    font-weight: 500;  /* Medium weight */
+  }
+  
+  /* Adjust spacing for paragraph after heading */
+  .section-content h4 + p {
+    margin-top: 5px;  /* Reduce space between heading and paragraph */
+    margin-bottom: 15px;  /* Add space before table */
+  }
+  
+  /* Style the table container */
+  .section-content .el-table {
+    margin: 10px 0 15px;  /* Adjust margins around table */
+  }
+  
+  /* Add these styles to improve table appearance */
+  :deep(.el-table) {
+    --el-table-border-color: #dcdfe6;  /* Softer border color */
+    --el-table-header-background-color: #f5f7fa;  /* Lighter header background */
+  }
+  
+  :deep(.el-table__header-wrapper th.el-table__cell) {
+    padding: 8px 0;  /* Adjust header padding */
+    font-weight: 600;  /* Slightly bolder headers */
+  }
+  
+  :deep(.el-table__body td.el-table__cell) {
+    padding: 12px 0;  /* Adjust cell padding */
   }
   </style>
   
