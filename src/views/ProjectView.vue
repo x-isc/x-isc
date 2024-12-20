@@ -307,7 +307,7 @@
                       <li>When correct answers are retained, models maintain focus on the original question</li>
                     </ul>
                   </el-col>
-                  <el-col :xs="24" :sm="24" :md="1">
+                  <el-col :xs="24" :sm="24" :md="13">
                     <img 
                       src="@/figures/case.png" 
                       alt="Token Attribution Analysis" 
